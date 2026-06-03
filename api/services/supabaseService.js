@@ -12,7 +12,6 @@ const memberColumns = [
   'linkedin_url',
   'initials',
   'is_associate',
-  'is_leadership',
   'display_order',
   'created_at',
   'updated_at'
