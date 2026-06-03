@@ -42,7 +42,6 @@ const parseAllowedOrigins = () => {
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
-    console.log('ALLOWED_ORIGINS:', allowedOrigins);
 };
 
 const allowedOrigins = parseAllowedOrigins();
@@ -52,20 +51,11 @@ app.disable('x-powered-by');
 
 app.use(helmet());
 app.use(cors({
-  origin: (origin, cb) => {
-    console.log('REQUEST ORIGIN:', origin);
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      return cb(null, true);
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
     }
-
-    console.log('BLOCKED ORIGIN:', origin);
-
-    cb(new Error(`CORS: ${origin} not allowed`));
-  },
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  credentials: true
-}));
 
     callback(new Error(`Origin is not allowed by CORS: ${origin}`));
   },
