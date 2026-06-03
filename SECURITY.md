@@ -1,6 +1,6 @@
 © Penta Minds.
 
-This repository powers official Penta Minds platforms.
+This repository powers official Penta Minds platforms and is solely restricted to admin and team usage.
 
 Unauthorized impersonation,
 redistribution,
