@@ -1,3 +1,10 @@
+app.get('/api/cors-test', (req, res) => {
+  res.json({
+    origin: req.headers.origin,
+    allowedOrigins
+  });
+});
+
 require('dotenv').config();
 
 const express = require('express');
