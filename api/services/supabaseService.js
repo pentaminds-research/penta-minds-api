@@ -12,6 +12,7 @@ const memberColumns = [
   'linkedin_url',
   'initials',
   'is_associate',
+  'team_type',       // "foundational" | "core" — used by frontend to split sections
   'display_order',
   'created_at',
   'updated_at'
