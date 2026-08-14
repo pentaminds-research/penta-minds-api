@@ -57,16 +57,30 @@ router.delete('/:slug/image', requireAdmin, asyncHandler(async (req, res) => {
   const { slug } = req.params;
 
   if (!slugPattern.test(slug)) {
-    throw new ApiError(400, 'INVALID_SLUG', 'Member slug format is invalid.');
+    throw new ApiError(
+      400,
+      'INVALID_SLUG',
+      'Member slug format is invalid.'
+    );
   }
 
   const member = await getMemberBySlug(slug);
 
   if (!member) {
-    throw new ApiError(404, 'MEMBER_NOT_FOUND', 'Team member was not found.');
+    throw new ApiError(
+      404,
+      'MEMBER_NOT_FOUND',
+      'Team member was not found.'
+    );
   }
 
-  await deleteImage(member.image_public_id);
+  // Cloudinary public ID is deterministic:
+  // penta-minds/team-members/<member-slug>
+  const cloudinaryPublicId =
+    `penta-minds/team-members/${slug}`;
+
+  await deleteImage(cloudinaryPublicId);
+
   const updated = await clearMemberImage(slug);
 
   res.status(200).json({
@@ -74,7 +88,6 @@ router.delete('/:slug/image', requireAdmin, asyncHandler(async (req, res) => {
     data: updated
   });
 }));
-
 router.post(
   '/:slug/image',
   requireAdmin,
@@ -115,8 +128,7 @@ router.post(
 
     const updated = await updateMemberImage(
       slug,
-      uploaded.imageUrl,
-      uploaded.publicId
+      uploaded.imageUrl
     );
 
     res.status(200).json({
