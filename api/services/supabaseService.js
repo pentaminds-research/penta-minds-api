@@ -11,7 +11,6 @@ const memberColumns = [
   'linkedin_url',
   'initials',
   'is_associate',
-  'team_type',       // "foundational" | "core" — used by frontend to split sections
   'display_order',
   'created_at',
   'updated_at'
@@ -22,9 +21,14 @@ const mapSupabaseError = (operation, error) => {
     return;
   }
 
-  throw new ApiError(500, 'SUPABASE_ERROR', `${operation} failed.`, {
-    message: error.message
-  });
+  throw new ApiError(
+    500,
+    'SUPABASE_ERROR',
+    `${operation} failed.`,
+    {
+      message: error.message
+    }
+  );
 };
 
 const getAllMembers = async () => {
@@ -35,6 +39,7 @@ const getAllMembers = async () => {
     .order('member_name', { ascending: true });
 
   mapSupabaseError('Fetching team members', error);
+
   return data || [];
 };
 
@@ -46,15 +51,15 @@ const getMemberBySlug = async (slug) => {
     .maybeSingle();
 
   mapSupabaseError('Fetching team member', error);
+
   return data;
 };
 
-const updateMemberImage = async (slug, imageUrl, publicId) => {
+const updateMemberImage = async (slug, imageUrl) => {
   const { data, error } = await supabase
     .from('team_members')
     .update({
       image_url: imageUrl,
-      image_public_id: publicId,
       updated_at: new Date().toISOString()
     })
     .eq('member_slug', slug)
@@ -62,6 +67,7 @@ const updateMemberImage = async (slug, imageUrl, publicId) => {
     .single();
 
   mapSupabaseError('Updating member image', error);
+
   return data;
 };
 
@@ -70,7 +76,6 @@ const clearMemberImage = async (slug) => {
     .from('team_members')
     .update({
       image_url: null,
-      image_public_id: null,
       updated_at: new Date().toISOString()
     })
     .eq('member_slug', slug)
@@ -78,6 +83,7 @@ const clearMemberImage = async (slug) => {
     .single();
 
   mapSupabaseError('Clearing member image', error);
+
   return data;
 };
 
