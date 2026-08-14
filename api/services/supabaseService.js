@@ -8,7 +8,6 @@ const memberColumns = [
   'role',
   'bio',
   'image_url',
-  'image_public_id',
   'linkedin_url',
   'initials',
   'is_associate',
