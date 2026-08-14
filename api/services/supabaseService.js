@@ -10,6 +10,7 @@ const memberColumns = [
   'image_url',
   'linkedin_url',
   'initials',
+  'team_type',
   'is_associate',
   'display_order',
   'created_at',
